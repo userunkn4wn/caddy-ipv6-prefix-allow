@@ -1,0 +1,13 @@
+[Unit]
+Description=Trigger caddy_dynamic_ipv6.sh on IPv6 prefix change
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+ExecStart=/usr/local/bin/caddy_dynamic_ipv6.sh
+Restart=always
+RestartSec=5
+User=YOUR_USER
+
+[Install]
+WantedBy=multi-user.target

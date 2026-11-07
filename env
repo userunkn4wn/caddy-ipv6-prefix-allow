@@ -1,0 +1,2 @@
+PREFIX_LEN=48 # supported: 48, 56
+FILE="/mnt/nvme/caddy/config/dynamic_ipv6.caddy" # Example output path
