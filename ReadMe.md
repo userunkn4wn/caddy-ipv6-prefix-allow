@@ -22,13 +22,29 @@ The network interface is detected automatically.
 
 ## Usage
 
-The script runs continuously on the Docker host, preferably as a systemd service.
+The script runs continuously on the Docker host, preferably as a systemd service (included in repo as `user.caddy_dynamic_ipv6.service`).
 
 The output file must be stored in a directory bind-mounted into the Caddy container so that Caddy can import it.
 
 The script expects the Docker container to be named `caddy` and its Caddyfile to be located at `/etc/caddy/Caddyfile`.
 
-**Note:** On the first run, the generated snippet must exist before Caddy starts, since the Caddyfile imports it. On subsequent starts, the existing file can be reused. If the script stops running, the last generated configuration remains in place but will no longer be updated.
+### First run
+
+Since Caddy requires imported files to exist at startup, there are two ways to initialize the configuration:
+
+**Option 1: Generate the file first**
+
+1. Start the Caddy container without importing the generated snippet.
+2. Start the script to generate the snippet at the configured location.
+3. Add the import statement to your Caddyfile and reload Caddy.
+
+**Option 2: Create an empty file first**
+
+1. Create an empty file at the configured output path.
+2. Add the import statement to your Caddyfile.
+3. Start the Caddy container and then the script, which will populate the file and automatically reload Caddy.
+
+After the initial setup, no manual intervention is required. The script automatically updates the snippet and reloads Caddy whenever the IPv6 prefix changes.
 
 ## How it works
 

@@ -1,9 +1,11 @@
 [Unit]
-Description=Trigger caddy_dynamic_ipv6.sh on IPv6 prefix change
-After=network-online.target
+Description=Monitor dynamic IPv6 prefix for Caddy
 Wants=network-online.target
+Requires=docker.service
+After=network-online.target docker.service
 
 [Service]
+Type=simple
 ExecStart=/usr/local/bin/caddy_dynamic_ipv6.sh
 Restart=always
 RestartSec=5
